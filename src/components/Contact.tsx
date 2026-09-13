@@ -8,13 +8,30 @@ export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Simulate API form dispatch success
-    setSubmitted(true);
-    setFormData({ name: "", email: "", message: "" });
-    setTimeout(() => setSubmitted(false), 5000);
-  };
+  const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  
+  try {
+    const response = await fetch("https://formspree.io/f/mrpgwkde", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify(formData)
+    });
+
+    if (response.ok) {
+      alert("Message sent successfully! 🚀");
+      setFormData({ name: "", email: "", message: "" });
+    } else {
+      alert("Failed to send message. Please try again! ❌");
+    }
+  } catch (error) {
+    alert("An error occurred. Please check your connection! ⚠️");
+  }
+};
+
 
   const copyEmail = () => {
     navigator.clipboard.writeText("rsrieaz4405@gmail.com");
