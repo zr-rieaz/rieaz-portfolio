@@ -108,13 +108,18 @@ export default function Contact() {
               </p>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form 
+               action="https://formspree.io/f/mrpgwkde"
+               method="POST"
+               onSubmit={handleSubmit} 
+               className="space-y-4">
               <div>
                 <label className="block text-xs uppercase font-mono tracking-wider text-slate-300 mb-2">
                   Your Name
                 </label>
                 <input
                   type="text"
+                  name="name"
                   required
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -129,6 +134,7 @@ export default function Contact() {
                 </label>
                 <input
                   type="email"
+                  name="email"
                   required
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -142,6 +148,7 @@ export default function Contact() {
                   Message Content
                 </label>
                 <textarea
+                  name="message"
                   required
                   rows={4}
                   value={formData.message}
