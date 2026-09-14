@@ -13,7 +13,20 @@ export default function Projects() {
   useEffect(() => {
     async function fetchGitHubRepos() {
       try {
-        const res = await fetch("https://api.github.com/users/zr-rieaz/repos?sort=updated&per_page=12");
+        const headers: HeadersInit = {
+          "Accept": "application/vnd.github.v3+json",
+        };
+
+        // যদি Vercel-এ টোকেন থাকে তবে সেটা হেডার হিসেবে পাঠাবে
+        if (process.env.NEXT_PUBLIC_GITHUB_TOKEN) {
+          headers["Authorization"] = `token ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`;
+        }
+
+        const res = await fetch(
+          "https://api.github.com/users/zr-rieaz/repos?sort=updated&per_page=12",
+          { headers }
+        );
+
         if (!res.ok) throw new Error("Failed to fetch");
         const data = await res.json();
         setProjects(data);
@@ -26,7 +39,7 @@ export default function Projects() {
     }
     fetchGitHubRepos();
   }, []);
-
+    
   // Filter categorization handler based on repo names, topics, or language
   const filterProjects = (proj: Project) => {
     if (selectedCategory === "All") return true;
